@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annapurneshwari Garments – Premium Embroidery Works, Mysore</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #c9954c;
+      --deep: #2b1a0e;
+      --cream: #fdf6ec;
+      --rose: #c0395a;
+      --text: #3a2a1a;
+      --light: #f9f0e3;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; color: var(--text); background: #fff; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 999;
+      background: rgba(43,26,14,0.97);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 70px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-circle {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #e8c07a);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 18px; color: var(--deep); font-weight: 700;
+    }
+    .nav-brand-text { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.2; }
+    .nav-brand-text span { display: block; color: var(--gold); font-size: 0.7rem; font-family: 'Poppins', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ddd; text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--deep); padding: 9px 22px;
+      border-radius: 25px; text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      transition: background 0.2s; letter-spacing: 0.5px;
+    }
+    .nav-cta:hover { background: #e8c07a; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2b1a0e 0%, #4a2e1a 40%, #6b3a22 70%, #3d2010 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 100px 6% 60px;
+    }
+    .hero-pattern {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image: radial-gradient(circle, #c9954c 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-content { text-align: center; z-index: 1; max-width: 760px; }
+    .hero-badge {
+      display: inline-block; background: rgba(201,149,76,0.2); border: 1px solid var(--gold);
+      color: var(--gold); padding: 6px 20px; border-radius: 30px;
+      font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem); color: #fff; line-height: 1.15; margin-bottom: 20px;
+    }
+    .hero-title .highlight { color: var(--gold); }
+    .hero-sub { color: #c9b49a; font-size: 1.05rem; line-height: 1.7; margin-bottom: 40px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #e8c07a); color: var(--deep);
+      padding: 14px 36px; border-radius: 30px; text-decoration: none;
+      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(201,149,76,0.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,149,76,0.5); }
+    .btn-outline {
+      border: 2px solid rgba(201,149,76,0.6); color: var(--gold);
+      padding: 14px 36px; border-radius: 30px; text-decoration: none;
+      font-weight: 500; font-size: 0.9rem; transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(201,149,76,0.1); border-color: var(--gold); }
+    .hero-stats {
+      display: flex; gap: 40px; justify-content: center; margin-top: 60px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); font-weight: 700; }
+    .stat-label { color: #a8927a; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+    /* SECTION COMMONS */
+    section { padding: 90px 6%; }
+    .section-tag { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--deep); line-height: 1.25; margin-bottom: 16px; }
+    .section-sub { color: #7a6050; font-size: 0.95rem; line-height: 1.7; max-width: 560px; }
+    .divider { width: 50px; height: 3px; background: linear-gradient(90deg, var(--gold), #e8c07a); border-radius: 2px; margin: 16px 0 32px; }
+
+    /* SERVICES */
+    #services { background: var(--cream); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px; margin-top: 50px; }
+    .service-card {
+      background: #fff; border-radius: 18px; padding: 36px 28px;
+      text-align: center; transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid rgba(201,149,76,0.12);
+      box-shadow: 0 2px 16px rgba(43,26,14,0.06);
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(43,26,14,0.14); }
+    .service-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, #fdf0da, #f5e0b8);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px; font-size: 1.8rem;
+    }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--deep); margin-bottom: 12px; }
+    .service-card p { color: #7a6050; font-size: 0.88rem; line-height: 1.65; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 16px; }
+    .service-tag { background: rgba(201,149,76,0.1); color: var(--gold); font-size: 0.72rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+
+    /* ABOUT */
+    #about { background: #fff; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .about-visual {
+      border-radius: 24px; overflow: hidden; position: relative;
+      background: linear-gradient(135deg, #2b1a0e, #6b3a22);
+      min-height: 420px; display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual-inner { text-align: center; padding: 40px; }
+    .about-emblem { font-size: 5rem; margin-bottom: 20px; }
+    .about-visual-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.6rem; margin-bottom: 10px; }
+    .about-visual-sub { color: #c9b49a; font-size: 0.9rem; line-height: 1.6; }
+    .about-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(201,149,76,0.08) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .about-features { display: flex; flex-direction: column; gap: 22px; margin-top: 32px; }
+    .about-feature { display: flex; gap: 16px; align-items: flex-start; }
+    .about-feature-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--gold), #e8c07a);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .about-feature h4 { color: var(--deep); font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+    .about-feature p { color: #7a6050; font-size: 0.84rem; line-height: 1.5; }
+
+    /* GALLERY */
+    #gallery { background: var(--light); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-top: 50px; }
+    .gallery-item {
+      border-radius: 16px; overflow: hidden; position: relative;
+      aspect-ratio: 1; cursor: pointer;
+      transition: transform 0.25s;
+    }
+    .gallery-item:hover { transform: scale(1.03); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s;
+      background: rgba(43,26,14,0.7);
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px;
+    }
+    .gallery-overlay span { color: #fff; font-size: 0.8rem; font-weight: 500; letter-spacing: 1px; }
+
+    /* PROCESS */
+    #process { background: var(--deep); }
+    #process .section-title { color: #fff; }
+    #process .section-sub { color: #a8927a; }
+    #process .section-tag { color: var(--gold); }
+    #process .divider { background: linear-gradient(90deg, var(--gold), transparent); }
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 50px; position: relative; }
+    .process-step { text-align: center; padding: 32px 24px; position: relative; }
+    .process-step:not(:last-child)::after {
+      content: '→'; position: absolute; right: -10px; top: 38px;
+      color: var(--gold); font-size: 1.4rem; opacity: 0.5;
+    }
+    .step-num {
+      width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold);
+      margin: 0 auto 18px;
+    }
+    .process-step h3 { color: #fff; font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+    .process-step p { color: #a8927a; font-size: 0.83rem; line-height: 1.55; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: #fff; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 50px; }
+    .testimonial-card {
+      background: var(--cream); border-radius: 18px; padding: 32px 28px;
+      border: 1px solid rgba(201,149,76,0.15);
+    }
+    .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-text { color: #5a4030; font-size: 0.9rem; line-height: 1.7; font-style: italic; margin-bottom: 22px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #e8c07a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--deep); font-weight: 700;
+    }
+    .author-name { font-weight: 600; color: var(--deep); font-size: 0.88rem; }
+    .author-role { color: #9a7a60; font-size: 0.78rem; margin-top: 2px; }
+
+    /* CONTACT */
+    #contact { background: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 50px; }
+    .contact-info { display: flex; flex-direction: column; gap: 24px; }
+    .contact-item { display: flex; gap: 18px; align-items: flex-start; }
+    .contact-item-icon {
+      width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--gold), #e8c07a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--deep);
+    }
+    .contact-item h4 { color: var(--deep); font-weight: 600; margin-bottom: 4px; }
+    .contact-item p, .contact-item a { color: #7a6050; font-size: 0.9rem; text-decoration: none; line-height: 1.5; }
+    .contact-item a:hover { color: var(--gold); }
+    .contact-form { background: #fff; border-radius: 20px; padding: 40px 36px; box-shadow: 0 4px 30px rgba(43,26,14,0.08); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--deep); margin-bottom: 6px; letter-spacing: 0.3px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 11px 16px;
+      border: 1.5px solid #e0d0be; border-radius: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 0.88rem; color: var(--text);
+      background: var(--cream); outline: none; transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .btn-submit {
+      width: 100%; background: linear-gradient(135deg, var(--gold), #e8c07a);
+      color: var(--deep); padding: 14px; border: none; border-radius: 12px;
+      font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,149,76,0.4); }
+    .form-success {
+      display: none; text-align: center; padding: 20px;
+      color: #2d7a4f; font-weight: 600; font-size: 0.9rem;
+    }
+
+    /* FOOTER */
+    footer { background: var(--deep); padding: 60px 6% 30px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 40px; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.4rem; margin-bottom: 10px; }
+    .footer-brand p { color: #a8927a; font-size: 0.85rem; line-height: 1.65; max-width: 300px; }
+    .footer-col h4 { color: #fff; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: #a8927a; text-decoration: none; font-size: 0.84rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+    .footer-bottom p { color: #7a6050; font-size: 0.8rem; }
+    .footer-bottom .made-with { color: var(--gold); }
+    .whatsapp-float {
+      position: fixed; bottom: 30px; right: 30px; z-index: 998;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25D366; display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; color: #fff; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      transition: transform 0.2s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .form-row { grid-template-columns: 1fr; }
+      .process-step:not(:last-child)::after { display: none; }
+      .hero-stats { gap: 24px; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 70px 5%; }
+      nav { padding: 0 5%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const services = [
+      {
+        icon: "🏫",
+        title: "School Uniform Embroidery",
+        desc: "Precise, durable embroidery for school logos, crests, and names on uniforms, ties, bags, and caps.",
+        tags: ["Logos", "Monograms", "Crests", "Name Tags"]
+      },
+      {
+        icon: "👗",
+        title: "Friends & Group Dresses",
+        desc: "Matching embroidery designs for friend groups, college outings, and team wear that celebrate your bond.",
+        tags: ["Group Sets", "Matching Designs", "Custom Text"]
+      },
+      {
+        icon: "🏖️",
+        title: "Vacation Dresses",
+        desc: "Beautiful embroidered travel outfits — make every holiday look picture-perfect with personalized designs.",
+        tags: ["Travel Wear", "Holiday Sets", "Couples"]
+      },
+      {
+        icon: "🎉",
+        title: "Holiday Memories",
+        desc: "Capture festival moments with festive embroidery on sarees, kurtas, and traditional wear for every occasion.",
+        tags: ["Festivals", "Celebrations", "Traditional"]
+      },
+      {
+        icon: "💍",
+        title: "Special Occasions",
+        desc: "Wedding, engagement, and anniversary embroidery for bridesmaids, family sets, and bridal trousseaux.",
+        tags: ["Weddings", "Bridal", "Receptions"]
+      },
+      {
+        icon: "🎁",
+        title: "Gifting & Personalisation",
+        desc: "Unique embroidered gifts — handkerchiefs, cushion covers, bags, and more with personal touches.",
+        tags: ["Gifts", "Personalised", "Corporate"]
+      }
+    ];
+
+    const galleryItems = [
+      { bg: "#fdf0da", icon: "🏫", label: "School Uniform" },
+      { bg: "#fde8f0", icon: "👗", label: "Friends Dress" },
+      { bg: "#e8f0fd", icon: "🏖️", label: "Vacation Outfit" },
+      { bg: "#e8fdf0", icon: "🎉", label: "Festival Wear" },
+      { bg: "#fde8e8", icon: "💍", label: "Bridal Set" },
+      { bg: "#f0e8fd", icon: "🎁", label: "Gift Item" },
+      { bg: "#fdfde8", icon: "🌸", label: "Floral Design" },
+      { bg: "#e8fdfd", icon: "✨", label: "Premium Work" },
+    ];
+
+    const steps = [
+      { num: "01", title: "Contact Us", desc: "Reach out via call or WhatsApp with your requirements" },
+      { num: "02", title: "Design Consult", desc: "We discuss patterns, fabrics, colours and embroidery style" },
+      { num: "03", title: "Sampling", desc: "A sample stitch is created for your approval" },
+      { num: "04", title: "Production", desc: "Bulk or custom orders completed with precision" },
+      { num: "05", title: "Delivery", desc: "Quality checked and delivered right to you" },
+    ];
+
+    const testimonials = [
+      {
+        stars: "★★★★★",
+        text: "Anupama and her team did a fantastic job on our school's uniform embroidery. The logo stitching is incredibly neat and has lasted multiple washes. Highly recommend!",
+        name: "Meena Sharma",
+        role: "School Principal, Mysore"
+      },
+      {
+        stars: "★★★★★",
+        text: "We ordered matching friendship group dresses for our Goa trip — the embroidery was beautiful and everyone loved it! Quick turnaround, great quality.",
+        name: "Priya & Friends",
+        role: "College Students, Mysore"
+      },
+      {
+        stars: "★★★★★",
+        text: "Got sarees embroidered for our family reunion. The festival designs were exactly what we wanted. Anupama is very patient and professional. Will order again!",
+        name: "Sunita Rao",
+        role: "Regular Customer, Mysore"
+      }
+    ];
+
+    function App() {
+      const [form, setForm] = useState({ name: '', phone: '', service: '', message: '' });
+      const [submitted, setSubmitted] = useState(false);
+      const [menuOpen, setMenuOpen] = useState(false);
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 4000);
+        setForm({ name: '', phone: '', service: '', message: '' });
+      };
+
+      return (
+        <>
+          {/* NAV */}
+          <nav>
+            <a href="#hero" className="nav-brand">
+              <div className="nav-logo-circle">A</div>
+              <div className="nav-brand-text">
+                Annapurneshwari Garments
+                <span>Premium Embroidery Works</span>
+              </div>
+            </a>
+            <ul className="nav-links">
+              <li><a href="#services">Services</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="#process">Process</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="tel:9980556602" className="nav-cta">📞 Order Now</a>
+            <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+              <span></span><span></span><span></span>
+            </div>
+          </nav>
+
+          {/* HERO */}
+          <section id="hero">
+            <div className="hero-pattern"></div>
+            <div className="hero-content">
+              <div className="hero-badge">✦ Saraswathipuram, Mysore ✦</div>
+              <h1 className="hero-title">
+                Where Every Stitch<br />
+                Tells a <span className="highlight">Story</span>
+              </h1>
+              <p className="hero-sub">
+                Premium embroidery works for school uniforms, group dresses, vacation outfits,
+                and holiday memories. Crafted with love in Mysore.
+              </p>
+              <div className="hero-btns">
+                <a href="#contact" className="btn-primary">Place Your Order</a>
+                <a href="#services" className="btn-outline">Explore Services</a>
+              </div>
+              <div className="hero-stats">
+                <div className="stat">
+                  <div className="stat-num">500+</div>
+                  <div className="stat-label">Happy Clients</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-num">10+</div>
+                  <div className="stat-label">Years Experience</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-num">5000+</div>
+                  <div className="stat-label">Orders Delivered</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-num">100%</div>
+                  <div className="stat-label">Satisfaction</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* SERVICES */}
+          <section id="services">
+            <div className="section-tag">What We Do</div>
+            <h2 className="section-title">Our Embroidery Services</h2>
+            <div className="divider"></div>
+            <p className="section-sub">
+              From school crests to vacation memories — we embroider what matters most to you,
+              with precision and passion.
+            </p>
+            <div className="services-grid">
+              {services.map((s, i) => (
+                <div className="service-card" key={i}>
+                  <div className="service-icon">{s.icon}</div>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                  <div className="service-tags">
+                    {s.tags.map((t, j) => <span className="service-tag" key={j}>{t}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ABOUT */}
+          <section id="about">
+            <div className="about-grid">
+              <div className="about-visual">
+                <div className="about-visual-inner">
+                  <div className="about-emblem">🪡</div>
+                  <div className="about-visual-title">Annapurneshwari<br />Garments</div>
+                  <div className="about-visual-sub">Saraswathipuram, Mysore<br />Crafting memories since day one</div>
+                </div>
+              </div>
+              <div>
+                <div className="section-tag">Our Story</div>
+                <h2 className="section-title">Embroidery Crafted<br />with Heart & Skill</h2>
+                <div className="divider"></div>
+                <p className="section-sub">
+                  At Annapurneshwari Garments, we believe every piece of fabric holds the potential
+                  for a beautiful story. Located in the heart of Saraswathipuram, Mysore, we
+                  specialize in bringing your visions to life through the timeless art of embroidery.
+                </p>
+                <div className="about-features">
+                  <div className="about-feature">
+                    <div className="about-feature-icon">🎯</div>
+                    <div>
+                      <h4>Precision Craftsmanship</h4>
+                      <p>Every stitch placed with care, ensuring clean lines, vivid colours, and long-lasting quality.</p>
+                    </div>
+                  </div>
+                  <div className="about-feature">
+                    <div className="about-feature-icon">💬</div>
+                    <div>
+                      <h4>Personalized Service</h4>
+                      <p>Anupama personally consults on every order to ensure your vision is perfectly realized.</p>
+                    </div>
+                  </div>
+                  <div className="about-feature">
+                    <div className="about-feature-icon">⚡</div>
+                    <div>
+                      <h4>Timely Delivery</h4>
+                      <p>We respect your time. Bulk school orders, group sets, and custom work — all on schedule.</p>
+                    </div>
+                  </div>
+                  <div className="about-feature">
+                    <div className="about-feature-icon">🌟</div>
+                    <div>
+                      <h4>Meet Anupama</h4>
+                      <p>Unit Head and creative force behind every design. Contact her directly for orders & queries.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* GALLERY */}
+          <section id="gallery">
+            <div className="section-tag">Our Work</div>
+            <h2 className="section-title">Glimpses of Our Craft</h2>
+            <div className="divider"></div>
+            <p className="section-sub">A peek into the variety of embroidery work we create with passion every day.</p>
+            <div className="gallery-grid">
+              {galleryItems.map((item, i) => (
+                <div className="gallery-item" key={i}>
+                  <div className="gallery-bg" style={{ background: item.bg }}>
+                    <span style={{ fontSize: '3.5rem' }}>{item.icon}</span>
+                  </div>
+                  <div className="gallery-overlay">
+                    <span style={{ fontSize: '2rem' }}>{item.icon}</span>
+                    <span>{item.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* PROCESS */}
+          <section id="process">
+            <div className="section-tag">How It Works</div>
+            <h2 className="section-title">Our Simple 5-Step Process</h2>
+            <div className="divider"></div>
+            <p className="section-sub">From your first call to the final delivery — here's how we make it seamless.</p>
+            <div className="process-steps">
+              {steps.map((step, i) => (
+                <div className="process-step" key={i}>
+                  <div className="step-num">{step.num}</div>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* TESTIMONIALS */}
+          <section id="testimonials">
+            <div className="section-tag">Client Love</div>
+            <h2 className="section-title">What Our Customers Say</h2>
+            <div className="divider"></div>
+            <div className="testimonials-grid">
+              {testimonials.map((t, i) => (
+                <div className="testimonial-card" key={i}>
+                  <div className="stars">{t.stars}</div>
+                  <p className="testimonial-text">"{t.text}"</p>
+                  <div className="testimonial-author">
+                    <div className="author-avatar">{t.name[0]}</div>
+                    <div>
+                      <div className="author-name">{t.name}</div>
+                      <div className="author-role">{t.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* CONTACT */}
+          <section id="contact">
+            <div className="section-tag">Get In Touch</div>
+            <h2 className="section-title">Place Your Order Today</h2>
+            <div className="divider"></div>
+            <p className="section-sub">
+              Contact Anupama for all your orders and clarifications. We'd love to create something beautiful for you!
+            </p>
+            <div className="contact-grid">
+              <div className="contact-info">
+                <div className="contact-item">
+                  <div className="contact-item-icon">👩‍💼</div>
+                  <div>
+                    <h4>Contact Person</h4>
+                    <p>Anupama — Unit Head</p>
+                    <p>Available for orders & clarifications</p>
+                  </div>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-item-icon">📞</div>
+                  <div>
+                    <h4>Phone / WhatsApp</h4>
+                    <a href="tel:9980556602">+91 99805 56602</a>
+                    <p style={{ marginTop: '4px', fontSize: '0.8rem', color: '#9a7a60' }}>Call or WhatsApp Anupama directly</p>
+                  </div>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-item-icon">📍</div>
+                  <div>
+                    <h4>Location</h4>
+                    <p>Saraswathipuram</p>
+                    <p>Mysore, Karnataka</p>
+                  </div>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-item-icon">🕐</div>
+                  <div>
+                    <h4>Working Hours</h4>
+                    <p>Monday – Saturday: 9:00 AM – 7:00 PM</p>
+                    <p>Sunday: By Appointment</p>
+                  </div>
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <a href="https://wa.me/919980556602?text=Hi%20Anupama%2C%20I%20would%20like%20to%20place%20an%20order%20for%20embroidery%20work."
+                     target="_blank" rel="noopener noreferrer"
+                     style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: '#25D366', color: '#fff', padding: '13px 28px', borderRadius: '30px', textDecoration: 'none', fontWeight: 600, fontSize: '0.88rem' }}>
+                    <span>💬</span> Chat on WhatsApp
+                  </a>
+                </div>
+              </div>
+
+              <div className="contact-form">
+                <h3 style={{ fontFamily: "'Playfair Display', serif", color: 'var(--deep)', marginBottom: '24px', fontSize: '1.3rem' }}>Send an Enquiry</h3>
+                {submitted ? (
+                  <div className="form-success" style={{ display: 'block' }}>
+                    ✅ Thank you! We'll get back to you shortly.
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" placeholder="Full Name" required
+                          value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                      </div>
+                      <div className="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" placeholder="+91 XXXXX XXXXX" required
+                          value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label>Service Required</label>
+                      <select value={form.service} onChange={e => setForm({...form, service: e.target.value})}>
+                        <option value="">Select a service…</option>
+                        <option>School Uniform Embroidery</option>
+                        <option>Friends &amp; Group Dresses</option>
+                        <option>Vacation / Holiday Outfits</option>
+                        <option>Festival &amp; Occasion Wear</option>
+                        <option>Bridal &amp; Wedding Embroidery</option>
+                        <option>Personalised Gifting</option>
+                        <option>Other / Custom</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label>Your Message</label>
+                      <textarea placeholder="Tell us about your embroidery requirements, quantity, timeline…"
+                        value={form.message} onChange={e => setForm({...form, message: e.target.value})}></textarea>
+                    </div>
+                    <button type="submit" className="btn-submit">Send Enquiry →</button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* FOOTER */}
+          <footer>
+            <div className="footer-grid">
+              <div className="footer-brand">
+                <h3>Annapurneshwari Garments</h3>
+                <p>Premium embroidery works for school uniforms, group dresses, vacation outfits, and holiday memories. Crafted with love in Saraswathipuram, Mysore.</p>
+                <p style={{ marginTop: '14px', color: '#7a6050', fontSize: '0.82rem' }}>📍 Saraswathipuram, Mysore, Karnataka</p>
+              </div>
+              <div className="footer-col">
+                <h4>Services</h4>
+                <ul>
+                  <li><a href="#services">School Uniforms</a></li>
+                  <li><a href="#services">Friends Dresses</a></li>
+                  <li><a href="#services">Vacation Outfits</a></li>
+                  <li><a href="#services">Holiday Memories</a></li>
+                  <li><a href="#services">Bridal Wear</a></li>
+                  <li><a href="#services">Gift Items</a></li>
+                </ul>
+              </div>
+              <div className="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                  <li><a href="#about">About Us</a></li>
+                  <li><a href="#gallery">Gallery</a></li>
+                  <li><a href="#process">Our Process</a></li>
+                  <li><a href="#testimonials">Testimonials</a></li>
+                  <li><a href="#contact">Contact</a></li>
+                  <li><a href="tel:9980556602">+91 99805 56602</a></li>
+                </ul>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              <p>© 2024 Annapurneshwari Garments. All rights reserved.</p>
+              <p>Made with <span className="made-with">♥</span> in Mysore</p>
+            </div>
+          </footer>
+
+          {/* WhatsApp Float */}
+          <a href="https://wa.me/919980556602?text=Hi%20Anupama%2C%20I%20would%20like%20to%20enquire%20about%20embroidery%20work."
+             target="_blank" rel="noopener noreferrer" className="whatsapp-float" title="Chat on WhatsApp">
+            💬
+          </a>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

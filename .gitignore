@@ -1,0 +1,3 @@
+# Keep everything — including Images folder
+!Images/
+!Images/**

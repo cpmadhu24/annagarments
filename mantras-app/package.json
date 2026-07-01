@@ -1,0 +1,13 @@
+{
+  "name": "mantra-mandiram",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Mantras, stotras, ashtottaras, ashtakams and dosha nivarana mantras in Kannada, Sanskrit, Tamil, Malayalam and Telugu.",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-react": "^7.23.2"
+  }
+}

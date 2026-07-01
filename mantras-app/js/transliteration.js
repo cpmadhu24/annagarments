@@ -92,7 +92,17 @@
         L: { matraSuffix: "ி", extra: "லு" },   // -லு
         LL: { matraSuffix: "ி", extra: "லூ" }   // -லூ
       },
-      vocalicIndepApprox: { R: "ரி", RR: "ரீ", L: "லி", LL: "லீ" } // ரி ரீ லி லீ
+      vocalicIndepApprox: { R: "ரி", RR: "ரீ", L: "லி", LL: "லீ" }, // ரி ரீ லி லீ
+      // Tamil has no dedicated anusvara letter; traditional convention
+      // assimilates it to the nasal matching the class of the following
+      // consonant (e.g. "ங்" before a guttural, not always "ம்").
+      anusvaraClassMap: {
+        k: "ங்", kh: "ங்", g: "ங்", gh: "ங்", ng: "ங்",
+        c: "ஞ்", ch: "ஞ்", j: "ஞ்", jh: "ஞ்", ny: "ஞ்",
+        tt: "ண்", tth: "ண்", dd: "ண்", ddh: "ண்", nn: "ண்",
+        t: "ந்", th: "ந்", d: "ந்", dh: "ந்", n: "ந்",
+        p: "ம்", ph: "ம்", b: "ம்", bh: "ம்", m: "ம்"
+      }
     }
   };
 
@@ -147,7 +157,9 @@
         }
         i += 1;
       } else if (ch === DEVA_ANUSVARA) {
-        out.push(t.anusvara); i += 1;
+        var nextConsKey = text[i + 1] && isDevaConsonant(text[i + 1]) ? devaConsMap[text[i + 1]] : null;
+        out.push((t.anusvaraClassMap && nextConsKey && t.anusvaraClassMap[nextConsKey]) || t.anusvara);
+        i += 1;
       } else if (ch === DEVA_VISARGA) {
         out.push(t.visarga); i += 1;
       } else if (ch === DEVA_AVAGRAHA) {

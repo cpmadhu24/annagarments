@@ -1,7 +1,8 @@
-const CACHE = "mantra-mandiram-v2";
+const CACHE = "mantra-mandiram-v3";
 const ASSETS = [
   "./",
   "./index.html",
+  "./privacy.html",
   "./manifest.webmanifest",
   "./css/style.css",
   "./js/transliteration.js",

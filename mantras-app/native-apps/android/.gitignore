@@ -1,0 +1,12 @@
+*.keystore
+*.jks
+keystore-password.txt
+local.properties
+.gradle/
+build/
+app/build/
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/

@@ -1,4 +1,4 @@
-const CACHE = "mantra-mandiram-v1";
+const CACHE = "mantra-mandiram-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,7 +11,11 @@ const ASSETS = [
   "./js/vendor/react-dom.production.min.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./icons/apple-touch-icon.png"
+  "./icons/apple-touch-icon.png",
+  "./images/lalithambe-hero.jpg",
+  "./images/lalithambe-hero.webp",
+  "./images/lalithambe-hero@0.5x.jpg",
+  "./images/lalithambe-hero@0.5x.webp"
 ];
 
 self.addEventListener("install", function (event) {

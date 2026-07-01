@@ -1,0 +1,14 @@
+{
+  "appId": "com.mantramandiram.app",
+  "appName": "Mantra Mandiram",
+  "webDir": "www",
+  "server": {
+    "url": "https://annagarments.vercel.app/mantras-app/",
+    "cleartext": false
+  },
+  "backgroundColor": "#3a0f1f",
+  "ios": {
+    "backgroundColor": "#3a0f1f",
+    "contentInset": "always"
+  }
+}

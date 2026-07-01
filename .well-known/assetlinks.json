@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mantramandiram.app",
+      "sha256_cert_fingerprints": [
+        "68:D5:71:81:89:AC:86:94:B0:32:AF:DC:65:80:8C:05:C5:0E:C2:60:86:0F:4E:5E:98:6B:08:43:81:D0:D3:86"
+      ]
+    }
+  }
+]

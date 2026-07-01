@@ -88,24 +88,44 @@ header.top{
   color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
 }
 
-/* LANGUAGE SLIDER (segmented sliding control) */
+/* LANGUAGE SLICER (draggable segmented slider) */
 .lang-slider{
   position:relative; display:flex; background:rgba(0,0,0,.28); border:1px solid rgba(201,169,78,.35);
   border-radius:30px; padding:3px; gap:2px; overflow-x:auto; scrollbar-width:none;
+  touch-action:pan-y; user-select:none; -webkit-user-select:none;
 }
 .lang-slider::-webkit-scrollbar{display:none}
+.lang-slider.dragging{cursor:grabbing}
 .lang-slider .thumb{
   position:absolute; top:3px; bottom:3px; border-radius:24px;
   background:linear-gradient(135deg, var(--gold-light), var(--gold-dark));
   transition:transform .32s cubic-bezier(.4,0,.2,1), width .32s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 2px 10px rgba(0,0,0,.35); z-index:0;
+  box-shadow:0 2px 10px rgba(0,0,0,.35), 0 0 0 2px rgba(255,255,255,.15) inset; z-index:0;
+  cursor:grab; display:flex; align-items:center; justify-content:center; gap:2px;
 }
+.lang-slider.dragging .thumb{transition:none; cursor:grabbing}
+.lang-slider .thumb .grip{width:3px;height:3px;border-radius:50%;background:rgba(74,15,31,.5)}
 .lang-slider button{
   position:relative; z-index:1; border:none; background:transparent; padding:7px 13px;
   font-size:.78rem; font-weight:600; color:rgba(253,246,236,.75); white-space:nowrap; border-radius:24px;
-  transition:color .3s;
+  transition:color .3s; cursor:pointer;
 }
 .lang-slider button.active{color:var(--maroon-dark)}
+
+/* HERO PHOTO */
+.hero-photo-wrap{padding:18px 14px 4px; display:flex; justify-content:center}
+.hero-photo-frame{
+  position:relative; max-width:300px; width:100%; border-radius:20px; overflow:hidden;
+  border:3px solid var(--gold); box-shadow:0 0 0 6px rgba(201,169,78,.18), 0 10px 40px rgba(0,0,0,.5);
+  background:#000;
+}
+.hero-photo-frame img{display:block; width:100%; height:auto}
+.hero-photo-frame .cap{
+  position:absolute; left:0; right:0; bottom:0; padding:10px 12px 8px;
+  background:linear-gradient(0deg, rgba(0,0,0,.82), transparent);
+  color:var(--gold-light); font-family:'Noto Serif Devanagari','Noto Sans Kannada',serif;
+  font-size:.86rem; text-align:center; font-weight:700;
+}
 
 /* HERO */
 .hero{padding:26px 0 10px; text-align:center}

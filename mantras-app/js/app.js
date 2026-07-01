@@ -21,23 +21,90 @@ function LangSlider({ lang, setLang }) {
   var wrapRef = useRef(null);
   var idx = LANGS.findIndex(function (l) { return l.code === lang; });
   var [thumb, setThumb] = useState({ left: 0, width: 0 });
+  var [dragging, setDragging] = useState(false);
+  var [dragLeft, setDragLeft] = useState(null);
+  var dragState = useRef(null); // { pointerId, moved }
+
+  function buttons() {
+    var wrap = wrapRef.current;
+    return wrap ? wrap.querySelectorAll("button") : [];
+  }
 
   useEffect(function () {
-    var wrap = wrapRef.current;
-    if (!wrap) return;
-    var btn = wrap.querySelectorAll("button")[idx];
+    var btn = buttons()[idx];
     if (btn) {
       setThumb({ left: btn.offsetLeft, width: btn.offsetWidth });
       btn.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
     }
   }, [lang]);
 
+  function indexForClientX(clientX) {
+    var btns = buttons();
+    var best = idx, bestDist = Infinity;
+    for (var i = 0; i < btns.length; i++) {
+      var rect = btns[i].getBoundingClientRect();
+      var center = rect.left + rect.width / 2;
+      var dist = Math.abs(center - clientX);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    }
+    return best;
+  }
+
+  function leftForClientX(clientX) {
+    var wrap = wrapRef.current;
+    if (!wrap) return thumb.left;
+    var wrapRect = wrap.getBoundingClientRect();
+    var maxLeft = wrap.scrollWidth - thumb.width - 3;
+    return Math.max(0, Math.min(maxLeft, clientX - wrapRect.left - thumb.width / 2 + wrap.scrollLeft));
+  }
+
+  function onPointerDown(e) {
+    var wrap = wrapRef.current;
+    if (!wrap) return;
+    wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId);
+    dragState.current = { pointerId: e.pointerId, moved: false, startX: e.clientX };
+    setDragging(true);
+    setDragLeft(leftForClientX(e.clientX));
+  }
+  function onPointerMove(e) {
+    if (!dragging || !dragState.current) return;
+    if (Math.abs(e.clientX - dragState.current.startX) > 3) dragState.current.moved = true;
+    setDragLeft(leftForClientX(e.clientX));
+  }
+  function onPointerUp(e) {
+    if (!dragging) return;
+    var nextIdx = indexForClientX(e.clientX);
+    setDragging(false);
+    setDragLeft(null);
+    dragState.current = null;
+    if (LANGS[nextIdx] && LANGS[nextIdx].code !== lang) setLang(LANGS[nextIdx].code);
+  }
+
+  var thumbLeft = dragging && dragLeft != null ? dragLeft : thumb.left;
+
   return (
-    <div className="lang-slider" ref={wrapRef}>
-      <div className="thumb" style={{ transform: "translateX(" + thumb.left + "px)", width: thumb.width + "px" }}></div>
+    <div
+      className={"lang-slider" + (dragging ? " dragging" : "")}
+      ref={wrapRef}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+    >
+      <div className="thumb" style={{ transform: "translateX(" + thumbLeft + "px)", width: thumb.width + "px" }}>
+        <span className="grip"></span><span className="grip"></span><span className="grip"></span>
+      </div>
       {LANGS.map(function (l) {
         return (
-          <button key={l.code} className={l.code === lang ? "active" : ""} onClick={function () { setLang(l.code); }} lang={l.code}>
+          <button
+            key={l.code}
+            className={l.code === lang ? "active" : ""}
+            lang={l.code}
+            onClick={function () {
+              if (dragState.current && dragState.current.moved) return;
+              setLang(l.code);
+            }}
+          >
             {l.label}
           </button>
         );
@@ -104,11 +171,27 @@ function Home({ lang, favs, toggleFav, onOpen, showFavoritesOnly }) {
   return (
     <div className="container">
       {!showFavoritesOnly && (
-        <div className="hero">
-          <div className="hero-ring">ॐ</div>
-          <div className="hero-title" lang={lang}>{pick(UI.appName, lang)}</div>
-          <div className="hero-tag">{pick(UI.tagline, lang)}</div>
-        </div>
+        <React.Fragment>
+          <div className="hero-photo-wrap">
+            <div className="hero-photo-frame">
+              <picture>
+                <source srcSet="images/lalithambe-hero@0.5x.webp 420w, images/lalithambe-hero.webp 800w" type="image/webp" sizes="300px" />
+                <img
+                  src="images/lalithambe-hero.jpg"
+                  srcSet="images/lalithambe-hero@0.5x.jpg 420w, images/lalithambe-hero.jpg 800w"
+                  sizes="300px"
+                  alt="Sri Lalithambika Simhasaneshwari"
+                  loading="eager"
+                />
+              </picture>
+              <div className="cap" lang={lang}>{tr("श्री ललिताम्बिका सिंहासनेश्वरी", lang)}</div>
+            </div>
+          </div>
+          <div className="hero">
+            <div className="hero-title" lang={lang}>{pick(UI.appName, lang)}</div>
+            <div className="hero-tag">{pick(UI.tagline, lang)}</div>
+          </div>
+        </React.Fragment>
       )}
 
       <div className="search-wrap">

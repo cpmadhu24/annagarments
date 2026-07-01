@@ -39,10 +39,16 @@ function LangSlider({
     left: 0,
     width: 0
   });
-  useEffect(function () {
+  var [dragging, setDragging] = useState(false);
+  var [dragLeft, setDragLeft] = useState(null);
+  var dragState = useRef(null); // { pointerId, moved }
+
+  function buttons() {
     var wrap = wrapRef.current;
-    if (!wrap) return;
-    var btn = wrap.querySelectorAll("button")[idx];
+    return wrap ? wrap.querySelectorAll("button") : [];
+  }
+  useEffect(function () {
+    var btn = buttons()[idx];
     if (btn) {
       setThumb({
         left: btn.offsetLeft,
@@ -55,23 +61,82 @@ function LangSlider({
       });
     }
   }, [lang]);
+  function indexForClientX(clientX) {
+    var btns = buttons();
+    var best = idx,
+      bestDist = Infinity;
+    for (var i = 0; i < btns.length; i++) {
+      var rect = btns[i].getBoundingClientRect();
+      var center = rect.left + rect.width / 2;
+      var dist = Math.abs(center - clientX);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    return best;
+  }
+  function leftForClientX(clientX) {
+    var wrap = wrapRef.current;
+    if (!wrap) return thumb.left;
+    var wrapRect = wrap.getBoundingClientRect();
+    var maxLeft = wrap.scrollWidth - thumb.width - 3;
+    return Math.max(0, Math.min(maxLeft, clientX - wrapRect.left - thumb.width / 2 + wrap.scrollLeft));
+  }
+  function onPointerDown(e) {
+    var wrap = wrapRef.current;
+    if (!wrap) return;
+    wrap.setPointerCapture && wrap.setPointerCapture(e.pointerId);
+    dragState.current = {
+      pointerId: e.pointerId,
+      moved: false,
+      startX: e.clientX
+    };
+    setDragging(true);
+    setDragLeft(leftForClientX(e.clientX));
+  }
+  function onPointerMove(e) {
+    if (!dragging || !dragState.current) return;
+    if (Math.abs(e.clientX - dragState.current.startX) > 3) dragState.current.moved = true;
+    setDragLeft(leftForClientX(e.clientX));
+  }
+  function onPointerUp(e) {
+    if (!dragging) return;
+    var nextIdx = indexForClientX(e.clientX);
+    setDragging(false);
+    setDragLeft(null);
+    dragState.current = null;
+    if (LANGS[nextIdx] && LANGS[nextIdx].code !== lang) setLang(LANGS[nextIdx].code);
+  }
+  var thumbLeft = dragging && dragLeft != null ? dragLeft : thumb.left;
   return /*#__PURE__*/React.createElement("div", {
-    className: "lang-slider",
-    ref: wrapRef
+    className: "lang-slider" + (dragging ? " dragging" : ""),
+    ref: wrapRef,
+    onPointerDown: onPointerDown,
+    onPointerMove: onPointerMove,
+    onPointerUp: onPointerUp,
+    onPointerCancel: onPointerUp
   }, /*#__PURE__*/React.createElement("div", {
     className: "thumb",
     style: {
-      transform: "translateX(" + thumb.left + "px)",
+      transform: "translateX(" + thumbLeft + "px)",
       width: thumb.width + "px"
     }
-  }), LANGS.map(function (l) {
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "grip"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "grip"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "grip"
+  })), LANGS.map(function (l) {
     return /*#__PURE__*/React.createElement("button", {
       key: l.code,
       className: l.code === lang ? "active" : "",
+      lang: l.code,
       onClick: function () {
+        if (dragState.current && dragState.current.moved) return;
         setLang(l.code);
-      },
-      lang: l.code
+      }
     }, l.label);
   }));
 }
@@ -168,16 +233,31 @@ function Home({
   }, [lang, cat, query, favs, showFavoritesOnly]);
   return /*#__PURE__*/React.createElement("div", {
     className: "container"
-  }, !showFavoritesOnly && /*#__PURE__*/React.createElement("div", {
+  }, !showFavoritesOnly && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "hero-photo-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hero-photo-frame"
+  }, /*#__PURE__*/React.createElement("picture", null, /*#__PURE__*/React.createElement("source", {
+    srcSet: "images/lalithambe-hero@0.5x.webp 420w, images/lalithambe-hero.webp 800w",
+    type: "image/webp",
+    sizes: "300px"
+  }), /*#__PURE__*/React.createElement("img", {
+    src: "images/lalithambe-hero.jpg",
+    srcSet: "images/lalithambe-hero@0.5x.jpg 420w, images/lalithambe-hero.jpg 800w",
+    sizes: "300px",
+    alt: "Sri Lalithambika Simhasaneshwari",
+    loading: "eager"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "cap",
+    lang: lang
+  }, tr("श्री ललिताम्बिका सिंहासनेश्वरी", lang)))), /*#__PURE__*/React.createElement("div", {
     className: "hero"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "hero-ring"
-  }, "ॐ"), /*#__PURE__*/React.createElement("div", {
     className: "hero-title",
     lang: lang
   }, pick(UI.appName, lang)), /*#__PURE__*/React.createElement("div", {
     className: "hero-tag"
-  }, pick(UI.tagline, lang))), /*#__PURE__*/React.createElement("div", {
+  }, pick(UI.tagline, lang)))), /*#__PURE__*/React.createElement("div", {
     className: "search-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     className: "search-box"
